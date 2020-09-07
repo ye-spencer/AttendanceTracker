@@ -16,5 +16,5 @@ class entry(object):
 		return date(self.traits[2])
 	def getleft(self):
 		return date(self.traits[3])
-	def gettotaltime(self):
+	def gettime(self):
 		return int(self.traits[4][:-1])
