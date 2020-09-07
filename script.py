@@ -6,6 +6,9 @@ def run(inFileName, outFileName):
 	inFile = open(inFileName, "r")
 	outFile = open(outFileName, "w")
 	#print(inFile.readline())
+	studentDict = { #lastnamefirstname : studentInfo
+
+	}
 	firstLine = True
 	for inp in inFile.readlines():
 		if firstLine:
