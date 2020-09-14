@@ -39,11 +39,13 @@ class entry(object):
 		self.traits = inp.split(",")
 	def getfirstname(self):
 		name = self.traits[0]
-		name = name[0:name.index(" ")]
-		return name
+		if name.find(" ") != -1:
+			return name[0:name.index(" ")]
+		return ""
 	def getlastname(self):
 		name = self.traits[0]
-		name = name[name.index(" ") + 1:]
+		if name.find(" ") != -1:
+			name = name[name.index(" ") + 1:]
 		return name
 	def getstart(self):
 		return date(self.traits[2])
@@ -89,14 +91,18 @@ def run(inFileName, outFileName):
 			firstLine = False
 		else:
 			myEntry = entry(inp)
-			name = myEntry.getlastname().ljust(25, " ") + " " + myEntry.getfirstname()
+			name = (myEntry.getlastname().ljust(25, " ") + " " + myEntry.getfirstname()).lower()
 			if name in studentDict:
 				studentDict[name].update(myEntry)
 			else:
 				studentDict[name] = studentInfo()
 				studentDict[name].update(myEntry)
+	bad = "\n\nBad Children:\n\n"
 	for name in sorted(studentDict.keys()):
 		outFile.write((name.ljust(40, " ") + studentDict[name].tostring() + "\n"))
+		if studentDict[name].getTotalTime() < 60:
+			bad += "%s: %d minutes\n" % (name, studentDict[name].getTotalTime())
+	outFile.write(bad)
 
 if __name__ == "__main__":
 	inFile = sys.argv[1]
